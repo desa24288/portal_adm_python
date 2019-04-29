@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Perfil de Usuario</h1>
+
+          <!-- DataTales Example -->
+          	<div class="card shadow mb-4">
+	            <div class="card-header py-3">
+	            </div>
+	            <div class="media content-section">
+		        	<div class="form-group">
+		        		<img class="rounded-circle article-img" src="{{ user.profile.image.url }}">
+		      		</div>
+	    	  		<form method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<fieldset class="form-group">
+							<legend class="border-bottom mb-4">Profile info</legend>
+								{{ u_form|crispy }}
+								{{ p_form|crispy }}
+						</fieldset>
+						<div class="form-group">
+							<button class="btn btn-outline-info" type="submit">Update</button>
+						</div>
+					</form>
+      			</div>
+   			</div>
+   		</div>
+
+{% endblock content %}

@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		table {
+		  font-family: arial, sans-serif;
+		  border-collapse: collapse;
+		  width: 100%;
+		}
+
+		td, th {
+		  border: 1px solid #dddddd;
+		  text-align: left;
+		  padding: 8px;
+		}
+
+		tr:nth-child(even) {
+		  background-color: #dddddd;
+		}
+	</style>
+	<link rel="shortcut icon" href="/media/logo1.png" type="image/x-icon"/>
+	{% if title %}
+		<title> SGR  - {{ title }}</title>
+	{% else %}
+		<title> SGR </title>
+	{% endif %}
+
+	<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   
+	<!--Nuevo Estilo 16/4/19--><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">	
+
+
+</head>
+<body>
+
+	<header class="site-header">
+	  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+	    <div class="container">
+	   <!-- {% if user.is_authenticated %}  
+	      	<a class="navbar-brand mr-4" href="{% url 'blog-home' %}">SPM</a>
+		{% else %}
+	    	<a class="navbar-brand mr-4" href="#">SPM</a>
+	    {% endif %}
+	-->
+		<div class="logo ml-8"><a href="{% url 'blog-home' %}"><img src="/media/logo1.png" style="height:60px"></a></div>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	      </button>
+	      <div class="collapse navbar-collapse" id="navbarToggle">
+	        <div class="navbar-nav mr-auto">	
+	          <!--<a class="nav-item nav-link" href="{% url 'blog-about' %}">Acerca</a>-->
+	        </div>
+	        <!-- Navbar Right Side -->
+	        <div class="navbar-nav">
+	        	{% if user.is_authenticated %}
+	        		<a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
+		        	<a class="nav-item nav-link" href="{% url 'post-create' %}">Crear</a>
+	        		<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>		          	
+	        	{% else %}
+	        		<a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+		          	<a class="nav-item nav-link" href="{% url 'register' %}">Registrar</a>
+		        {% endif %}
+	        </div>
+	      </div>
+	    </div>
+	  </nav>
+	</header>
+
+	<main role="main" class="container">
+	  <div class="row">
+
+	    <div class="col-md-4">
+	    {% if user.is_authenticated %}  	
+	      <div class="content-section">
+			        <h4>Menu</h4>
+			        <p class='text-muted'>
+			          <ul class="list-group">
+			            <li class="list-group-item list-group-item-light"><a href="#">Formulario de Mediciones</a></li>
+			            <li class="list-group-item list-group-item-light"><a href="#">Analisis General Mediciones</a></li>
+			            <li class="list-group-item list-group-item-light">
+			            	<div class="dropdown">
+			            		<a href="" data-toggle="dropdown">
+			            			Mantenedores <span class="caret"></span>
+			            		</a>
+			            			 <ul class="dropdown-menu">
+      									<li><a href="#">Componente</a></li>
+      									<li><a href="{% url 'subcomponente' %}">SubComponente</a></li>
+      									<li><a href="#">Componente Medición</a></li>
+      									<li><a href="#">Componente Modo Falla</a></li>
+      									<li><a href="#">Condición</a></li>
+      									<li><a href="#">Empresa</a></li>
+      									<li><a href="#">Equipo</a></li>
+      									<li><a href="#">Medición</a></li>
+      									<li><a href="{% url 'profile' %}">Perfil de Usuario</a></li>
+      									<li><a href="#">Tipo de Falla</a></li>
+      									<li><a href="#">Usuario</a></li>
+      									<li><a href="#">Módulo Ingreso Aportes</a></li>
+      								</ul>
+			            	</div>
+			            </li>
+			            <li class="list-group-item list-group-item-light"><a href="#">Informes Cerrados</a></li>
+			            <li class="list-group-item list-group-item-light">
+			            	<div class="dropdown">
+			            		<a href="#" data-toggle="dropdown">Reportes <span class="caret"></a>
+			            		<ul class="dropdown-menu">
+			            			<li><a href="#">#</a></li>
+			            		</ul>
+
+			            	</div>
+			            </li>
+			          </ul>
+			        </p>
+	      </div>
+       	{% endif %}
+	    </div>
+	    <div class="col-md-8">
+	   		{% if messages %}
+	   			{% for message in messages %}
+	   				<div class="alert alert-{{ message.tags }}">
+	   					{{ message }}
+	   				</div>
+	   			{% endfor %}
+	   		{% endif %}
+	      	{% block content %}
+	      	{% endblock %}
+	    </div>
+	  </div>
+	</main>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+	<article class="media content-section">
+	  <div class="media-body">
+	  	<table>
+		  <tr>
+		    <th>Componente</th>
+		    <th>Descripcion</th>
+		  </tr>
+		  {% for data in data %}
+		  <tr>
+		    <td>{{ data.nombre }}</td>
+		    <td>{{ data.descripcion }}</td>
+		  </tr>  
+		  {% endfor %}
+		</table>
+	  </div>                      
+	</article>
+		
+	
+{% endblock content %}

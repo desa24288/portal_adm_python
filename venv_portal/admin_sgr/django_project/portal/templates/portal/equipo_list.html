@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+{% load static %}
+{% block content %}
+
+          <!-- Page Heading -->
+          <h1 class="h3 mb-2 text-gray-800">Equipo</h1>
+
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+            </div>
+            <div class="card-body">
+              <div class="media content-section">
+                  <div class="form-group">
+                      <h2 class="account-heading"></h2>
+                      <p class="text-secondary"></p>
+                  </div>
+                <div class="form-group" style="padding: 20px;">
+                    <h2 class="account-heading"></h2>
+                    <p class="text-secondary"></p>
+                </div>
+                <form method="POST" enctype="multipart/form-data">
+                  <fieldset class="form-group">
+                    <!-- Here -->
+                    <select class="form-control">
+                        <option>Seleccione Equipo</option> 
+                        {% for equipos in equipo %}
+                          <option>
+                              {{ equipos.nombre }}
+                            </a>
+                          </option> 
+                        {% endfor %}
+                    </select>
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+
+{% endblock %}
