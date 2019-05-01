@@ -53,6 +53,18 @@ class Equipo(models.Model):
 	def __str__(self):
 		return self.nombre
 
+class Tecnica(models.Model):
+	nombre = models.CharField(max_length=50)
+	equipo = models.ForeignKey(Equipo, on_delete=models.CASCADE)
+
+class Actividad(models.Model):
+	nombre = models.CharField(max_length=50)
+	tecnica = models.ForeignKey(Tecnica, on_delete=models.CASCADE)
+
+class Sistema(models.Model):
+	nombre = models.CharField(max_length=50)
+	actividad = models.ForeignKey(Actividad, on_delete=models.PROTECT)
+
 class Componente(models.Model):
 	nombre = models.CharField(max_length=50)
 	descripcion = models.CharField(max_length=255)
@@ -62,6 +74,7 @@ class Componente(models.Model):
 	espesor_retiro = models.DecimalField(max_digits=10, decimal_places=3, default=Decimal('0.0'))
 	espesor_permitida = models.DecimalField(max_digits=10, decimal_places=3, default=Decimal('0.0'))
 	equipo = models.ForeignKey(Equipo, on_delete=models.CASCADE)
+	sistema = models.ForeignKey(Sistema, on_delete=models.PROTECT)
 
 	def __str__(self):
 		return self.nombre
@@ -76,17 +89,8 @@ class SubComponente(models.Model):
 
 class Modo_Falla(models.Model):
 	nombre = models.CharField(max_length=100)
-	subComponente = models.ForeignKey(SubComponente, on_delete=models.PROTECT)
+	subComponente = models.ForeignKey(SubComponente, on_delete=models.CASCADE)
 
-class Tecnica(models.Model):
-	nombre = models.CharField(max_length=50)
-	equipo = models.ForeignKey(Equipo, on_delete=models.CASCADE)
 
-class Actividad(models.Model):
-	nombre = models.CharField(max_length=50)
-	tecnica = models.ForeignKey(Tecnica, on_delete=models.CASCADE)
 
-# class Sistema(models.Model):
-# 	nombre = models.CharField(max_length=50)
-# 	actividad = models.ForeignKey(Actividad, on_delete=models.PROTECT)
 

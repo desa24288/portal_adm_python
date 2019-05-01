@@ -11,6 +11,7 @@ from django.views.generic import (
 	View
 )
 from .models import SubComponente, Company, Componente, Tipo, Equipo
+from dal import autocomplete
 from django.utils import timezone
 from django.urls import reverse_lazy
 from .forms import EquipoForm
@@ -107,5 +108,15 @@ class GeneratePDF(View):
 			return response
 		return HttpResponse("Not Found")
 
-		
-	 
+# class ComponenteAutocomplete(autocomplete.Select2QuerySetView):
+#     def get_queryset(self):
+#         # Don't forget to filter out results depending on the visitor !
+#         if not self.request.user.is_authenticated():
+#             return Componente.objects.none()
+#
+#         qs = Componente.objects.all()
+#
+#         if self.q:
+#             qs = qs.filter(name__istartswith=self.q)
+#
+#         return qs
