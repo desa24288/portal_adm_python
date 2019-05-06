@@ -1,7 +1,7 @@
 {% extends "blog/base.html" %}
 {% load static %}
 {% block content %}
-          <!-- Page Heading -->
+        <!-- Page Heading -->
           <h1 class="h3 mb-2 text-gray-800">
             Crear formulario
           </h1>
@@ -11,25 +11,42 @@
             </div>
             <div class="card-body">
               <div class= "content-section">
-                  <form method="POST" class="post-form">
-                    <legend class="border-bottom mb-4"></legend>
-                    {% csrf_token %}
-                    <div class="fieldWrapper">
-                      {{ form.as_p.errors }}
-                      {{ form.as_p.label_tag }}
-                      {{ form.as_p }}
-                    </div>
-                    <div class="form-group">
-                      <a target="_blank" class="btn btn-outline-info" type="button"
-                      href="{% url 'pdf' %}">Generar</a>
-                    </div>
+                  <form id="new_user_form" method="POST" class="post-form">
+                      {% csrf_token %}
+                      <table>
+                        {{ form.as_table.errors }}
+                        {{ form.as_table.label_tag }}
+                        {{ form.as_table }}
+                      </table>
+                        <div class="form-group">
+                            </br>
+                            <button target="_blank" class="btn btn-outline-info"
+                                href="{% url 'pdf' %}">Generar</button>
+                        </div>
                   </form>
               </div>
-            </div>
           </div>
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
 
+  <!--<script type="text/javascript">-->
+      <!--$(document).on('submit', '#new_user_form', function(e){-->
+        <!--e.preventDefault();-->
 
+        <!--$.ajax({-->
+          <!--type:'POST',-->
+          <!--url:'/portal/equipo_form/',-->
+          <!--data:{-->
+            <!--name:$('#name').val(),-->
+            <!--email:$('#email').val(),-->
+            <!--password:$('#password').val(),-->
+            <!--csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()-->
+          <!--},-->
+          <!--sucess:function(){-->
+            <!--alert("Logrado!");-->
+          <!--}-->
+        <!--})-->
+      <!--}-->
+    <!--</script>-->
 {% endblock %}

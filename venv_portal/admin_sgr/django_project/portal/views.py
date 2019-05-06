@@ -10,16 +10,18 @@ from django.views.generic import (
 	DeleteView,
 	View
 )
-from .models import SubComponente, Company, Componente, Tipo, Equipo
+from .models import SubComponente, Company, Componente, Tipo, Equipo, Person, City, Country
 from dal import autocomplete
 from django.utils import timezone
 from django.urls import reverse_lazy
-from .forms import EquipoForm
+from .forms import EquipoForm, PersonForm
 import re
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from portal.utils import render_to_pdf
 from django.template.loader import get_template
+from django.urls import reverse_lazy
+import json
 
 class RequireLoginMiddleware(object):
     """
@@ -44,11 +46,40 @@ class RequireLoginMiddleware(object):
     """
 
 @login_required
-def lista(request):
-	context = {
-		'data': SubComponente.objects.all()
-	}
-	return render(request, 'portal/subcomponent_list.html', context)
+# def lista(request):
+# 	context = {
+# 		'data': SubComponente.objects.all()
+# 	}
+# 	return render(request, 'portal/subcomponent_list.html', context)
+def index(request):
+    equipo = Equipo.objects.all()
+    print(equipo)
+    return render(request, 'portal/person_list.html', {'equipo': equipo})
+
+def getdetails(request):
+	if request.method == 'GET':
+		equipo_id = request.GET.get('cnt')
+		print ('Equipo ID %s' % equipo_id)
+		# return HttpResponse(simplejson.dumps(equipo_id))
+
+		result_set = []
+		# all_componente = []
+		answer = str(equipo_id[1:-1])
+		selected_equipo = Equipo.objects.get(id=answer)
+		print('selected %s' % selected_equipo)
+		all_componente = selected_equipo.componente_set.all()
+		for componente in all_componente:
+			# print('Componente nombre %s' % componente.nombre)
+			result_set.append({'nombre': componente.nombre})
+		print('Componente(s) %s' % result_set[0])
+		return HttpResponse(json.dumps(result_set), content_type='application/json')
+
+def load_cities(request):
+    country_id = request.GET.get('country')
+    cities = City.objects.filter(country_id=country_id).order_by('name')
+    return render(request, 'portal/hr/city_dropdown_list_options.html', {'cities': cities})
+
+
 
 class PortalSubComponenteView(LoginRequiredMixin, ListView):
 	 model = SubComponente
@@ -75,7 +106,7 @@ class PortalTipoView(LoginRequiredMixin, ListView):
 
 class PortalEquipoListView(LoginRequiredMixin, ListView):
 	 model = Equipo
-	 template_name = 'portal/equipo_list.html'
+	 template_name = 'portal/'
 	 context_object_name = 'equipo'
 
 def equipo_form(request):
@@ -107,6 +138,41 @@ class GeneratePDF(View):
 			response['Content-Disposition'] = content
 			return response
 		return HttpResponse("Not Found")
+
+# class PersonListView(ListView):
+# 	 def person_form(request):
+# 	form = PersonForm()
+#  	return render(request, 'portal/person_list.html', {'form':form})
+
+class PersonCreateView(CreateView):
+    model = Person
+    success_url = reverse_lazy('person_changelist')
+
+class PersonUpdateView(UpdateView):
+    model = Person
+    success_url = reverse_lazy('person_changelist')
+
+# def load_cities(request):
+#     country_id = request.GET.get('country')
+#     cities = City.objects.filter(country_id=country_id).order_by('name')
+#     return render(request, 'portal/hr/city_dropdown_list_options.html', {'cities': cities})
+#
+
+
+# def create_user(request):
+# 	#if request.method == 'POST':
+# 	name = request.POST['name']
+# 	email = request.POST['email']
+# 	password = request.POST['password']
+#
+# 	User.objects.create(
+# 		name=name,
+# 		email=email,
+# 		password=password
+# 	)
+#
+# 	return HttpResponse('')
+
 
 # class ComponenteAutocomplete(autocomplete.Select2QuerySetView):
 #     def get_queryset(self):
