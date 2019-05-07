@@ -27,19 +27,18 @@
 
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-
-
    <script>
     $(document).ready(function(){
          $('select#selectequipos').change(function () {
              var optionSelected = $(this).find("option:selected");
-             var valueSelected  = optionSelected.val();
-             var equipo_nombre   = optionSelected.text();
-             console.log(valueSelected);
+             console.log("Equipo selected= "+optionSelected);
+             var valueSelected = optionSelected.val();
+             console.log("Equipo value selected= "+valueSelected);
+             var equipo_nombre = String(" "+valueSelected+" ");
+             console.log("Equipo nombre= "+equipo_nombre);
 
-             data = {'cnt' : valueSelected };
-             console.log(data);
+             data = {'cnt' : equipo_nombre};
+             console.log("Data a enviar= "+data);
              $.ajax({
                       url:'getdetails/',
                       type: 'GET',
@@ -50,13 +49,75 @@
                               for (var i = data.length - 1; i >= 0; i--) {
                                 $("#selectcomponentes").append('<option>'+data[i].nombre+'</option>');
                                };
-                            },
+                               <!-- COMPONENTE DDL -->
+                               $(document).ready(function(){
+                               $('select#selectcomponentes').change(function () {
+                                   var optionSelected = $(this).find("option:selected");
+                                   console.log("optionSelected= "+optionSelected);
+                                   var valueSelected = optionSelected.val();
+                                   console.log("valueSelected= "+valueSelected);
+                                   var componente_nombre = " "+valueSelected+" ";
+                                   console.log(componente_nombre);
+
+                                   data = {'cnc' : componente_nombre};
+                                   console.log("Componente= "+data);
+                                   $.ajax({
+                                            url:'getdetailsSub/',
+                                            type: 'GET',
+                                            data: data,
+                                            success:
+                                            function(data){
+                                              $("#selectsub option").remove();
+                                              for (var i = data.length - 1; i >= 0; i--) {
+                                                $("#selectsub").append('<option>'+data[i].nombre+'</option>');
+                                               };
+                                               <!-- SUBCOMPONENTE DDL -->
+                                                  $(document).ready(function(){
+                                                     $('select#selectsub').change(function () {
+                                                         var optionSelected = $(this).find("option:selected");
+                                                         console.log(optionSelected);
+                                                         var valueSelected = optionSelected.val();
+                                                         console.log(valueSelected);
+                                                         var subcomponente_nombre = " "+valueSelected+" ";
+                                                         console.log(subcomponente_nombre);
+
+                                                         data = {'cnf' : subcomponente_nombre};
+                                                         console.log("Subcomponente= "+data);
+                                                         $.ajax({
+                                                                  url:'getdetailsFall/',
+                                                                  type: 'GET',
+                                                                  data: data,
+                                                                  success:
+                                                                  function(data){
+                                                                    $("#selectfall option").remove();
+                                                                    for (var i = data.length - 1; i >= 0; i--) {
+                                                                      $("#selectfall").append('<option>'+data[i].nombre+'</option>');
+                                                                      console.log(data.nombre);
+                                                                     };
+                                                                  },
+                                                                  <!--error: console.log('error')-->
+                                                         });
+
+                                                     });
+                                                });
+
+                                               <!-- FIN MODOFALLA-->
+                                            },
+                                            <!--error: console.log('error')-->
+                                   });
+
+                               });
+                          });
+                           <!-- FIN SUBCOMPONENTE DDL -->
+                      },
                       <!--error: console.log('error')-->
              });
 
          });
     });
    </script>
+
+
 
 </head>
 

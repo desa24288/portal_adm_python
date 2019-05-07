@@ -14,9 +14,17 @@
                   <form id="new_user_form" method="POST" class="post-form">
                       {% csrf_token %}
                       <table>
-                        {{ form.as_table.errors }}
-                        {{ form.as_table.label_tag }}
-                        {{ form.as_table }}
+                          <select name="selectequipos" id="selectequipos">
+                            {% for item in form %}
+                                <option value="{{ item.id }}"> {{ item.nombre }} </option>
+                            {% endfor %}
+                          </select>
+
+                          <select name ="selectcomponentes" id="selectcomponentes">
+                          </select>
+                            {{ form.as_table.errors }}
+                            {{ form.as_table.label_tag }}
+                            {{ form.as_table }}
                       </table>
                         <div class="form-group">
                             </br>

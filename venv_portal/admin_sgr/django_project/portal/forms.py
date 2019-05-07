@@ -2,6 +2,9 @@ from django import forms
 # from dal import
 #from django_select2.forms import ModelSelect2Widget
 from .models import Equipo, Componente, Company, Person, City, SubComponente, Modo_Falla
+from django.http import HttpResponse
+import json
+
 
 class PersonForm(forms.ModelForm):
     class Meta:
@@ -28,6 +31,23 @@ class EquipoForm(forms.ModelForm):
 	SubComponente = forms.ModelChoiceField(queryset=SubComponente.objects.all())
 	Modo_Falla = forms.ModelChoiceField(queryset=Modo_Falla.objects.all())
 
+def getdetails(request):
+	if request.method == 'GET':
+		equipo_id = request.GET.get('cnt')
+		print ('Equipo ID %s' % equipo_id)
+		# return HttpResponse(simplejson.dumps(equipo_id))
+
+		result_set = []
+		# all_componente = []
+		answer = str(equipo_id[1:-1])
+		selected_equipo = Equipo.objects.get(id=answer)
+		print('selected %s' % selected_equipo)
+		all_componente = selected_equipo.componente_set.all()
+		for componente in all_componente:
+			print('Componente %s' % componente.nombre)
+			result_set.append({'nombre': componente.nombre})
+		print('Componente(s) %s' % result_set[0])
+		return HttpResponse(json.dumps(result_set), content_type='application/json')
 	#def __init__(self, *args, **kwargs):
     #    super().__init__(*args, **kwargs)
     #    self.fields['nombre'].queryset = Componente.objects.none()

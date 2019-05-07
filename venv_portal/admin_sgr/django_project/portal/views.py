@@ -20,8 +20,9 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from portal.utils import render_to_pdf
 from django.template.loader import get_template
-from django.urls import reverse_lazy
 import json
+from django_group_by import GroupByMixin
+
 
 class RequireLoginMiddleware(object):
     """
@@ -60,26 +61,74 @@ def getdetails(request):
 	if request.method == 'GET':
 		equipo_id = request.GET.get('cnt')
 		print ('Equipo ID %s' % equipo_id)
-		# return HttpResponse(simplejson.dumps(equipo_id))
 
 		result_set = []
-		# all_componente = []
 		answer = str(equipo_id[1:-1])
 		selected_equipo = Equipo.objects.get(id=answer)
 		print('selected %s' % selected_equipo)
 		all_componente = selected_equipo.componente_set.all()
 		for componente in all_componente:
-			# print('Componente nombre %s' % componente.nombre)
+			print('Componente %s' % componente.nombre)
 			result_set.append({'nombre': componente.nombre})
 		print('Componente(s) %s' % result_set[0])
 		return HttpResponse(json.dumps(result_set), content_type='application/json')
+
+def getdetailsSub(request):
+	if request.method == 'GET':
+		componente_id = request.GET.get('cnc')
+		print ('Componente ID %s' % componente_id)
+
+		result_set = []
+		answer = str(componente_id[1:-1])
+		selected_componente = Componente.objects.get(nombre=answer)
+		# selected_componente = Componente.objects.value_list(nombre=answer, flat=True).distinct()
+
+		print('selected %s' % selected_componente)
+		all_subcomponente = selected_componente.subcomponente_set.all()
+		for subcomponente in all_subcomponente:
+			print('SubComponente %s' % subcomponente.nombre)
+			result_set.append({'nombre': subcomponente.nombre})
+		print('SubComponente(s) %s' % result_set[0])
+		return HttpResponse(json.dumps(result_set), content_type='application/json')
+
+def getdetailsFall(request):
+	if request.method == 'GET':
+		subcomponente_id = request.GET.get('cnf')
+		print ('Componente ID %s' % subcomponente_id)
+
+		result_set = []
+		answer = str(subcomponente_id[1:-1])
+		selected_subcomponente = SubComponente.objects.get(nombre=answer)
+		# selected_componente = Componente.objects.value_list(nombre=answer, flat=True).distinct()
+
+		print('selected %s' % selected_subcomponente)
+		all_modofallas = selected_subcomponente.modo_falla_set.all()
+		for modofalla in all_modofallas:
+			print('Modo Fallas %s' % modofalla.nombre)
+			result_set.append({'nombre': modofalla.nombre})
+		print('ModoFalla(s) %s' % result_set[0])
+		return HttpResponse(json.dumps(result_set), content_type='application/json')
+
+# def getdetailsfallas(request):
+# 	if request.method == 'GET':
+# 		componente_id = request.GET.get('cnc')
+# 		print ('Componente ID %s' % componente_id)
+#
+# 		result_set = []
+# 		answer = str(componente_id[1:-1])
+# 		selected_componente = Componente.objects.get(id=answer)
+# 		print('selected %s' % selected_equipo)
+# 		all_componente = selected_equipo.componente_set.all()
+# 		for componente in all_componente:
+# 			print('Componente %s' % componente.nombre)
+# 			result_set.append({'nombre': componente.nombre})
+# 		print('Componente(s) %s' % result_set[0])
+# 		return HttpResponse(json.dumps(result_set), content_type='application/json')
 
 def load_cities(request):
     country_id = request.GET.get('country')
     cities = City.objects.filter(country_id=country_id).order_by('name')
     return render(request, 'portal/hr/city_dropdown_list_options.html', {'cities': cities})
-
-
 
 class PortalSubComponenteView(LoginRequiredMixin, ListView):
 	 model = SubComponente

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from decimal import Decimal
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django_group_by import GroupByMixin
 
 class Sector(models.Model):
 	nom_sector = models.CharField(max_length=50)
@@ -65,8 +66,8 @@ class Equipo(models.Model):
 	tipo = models.ForeignKey(Tipo, on_delete=models.PROTECT)
 	area = models.ForeignKey(Area, on_delete=models.PROTECT)
 
-	def __unicode__(self):
-            return u'%s' % (self.nombre)
+	def __str__(self):
+		return self.nombre
 
 class Tecnica(models.Model):
 	nombre = models.CharField(max_length=50)
@@ -100,8 +101,8 @@ class Componente(models.Model):
 	equipo = models.ForeignKey(Equipo, on_delete=models.CASCADE)
 	sistema = models.ForeignKey(Sistema, on_delete=models.PROTECT)
 
-	def __unicode__(self):
-            return u'%s' % (self.nombre)
+	def __str__(self):
+		return self.nombre
 
 class SubComponente(models.Model):
 	nombre = models.CharField(max_length=50)
