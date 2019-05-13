@@ -4,6 +4,7 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django_group_by import GroupByMixin
+import datetime
 
 class Sector(models.Model):
 	nom_sector = models.CharField(max_length=50)
@@ -145,6 +146,25 @@ class User(models.Model):
 	name = models.CharField(max_length=32)
 	email = models.EmailField()
 	password = models.CharField(max_length=8)
+
+class Ot(models.Model):
+	ot_num = models.IntegerField()
+
+	def __int__(self):
+		return self.ot_num
+
+class Reporte(models.Model):
+	name = models.CharField(max_length=32)
+	ot_num = models.ForeignKey(Ot, on_delete=models.SET_NULL, null=True)
+	user_adm = models.CharField(max_length=32)
+	created_at = models.DateField(null=True, blank=True)
+	equipo = models.CharField(max_length=32)
+	componente = models.CharField(max_length=32)
+	subsistema = models.CharField(max_length=32)
+	falla = models.CharField(max_length=155)
+	comentario = models.CharField(max_length=255)
+	estado = models.CharField(max_length=32)
+
 
 
 

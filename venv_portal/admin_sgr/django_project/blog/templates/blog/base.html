@@ -13,8 +13,9 @@
   <title>SGR </title>
 
   <!-- Custom fonts for this template-->
-  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
-  <script type="text/javascript" src="http://yourjavascript.com/7174319415/script.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+  <!--<script type="text/javascript" src="http://yourjavascript.com/7174319415/script.js"></script>-->
 
   <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -24,9 +25,12 @@
 
   <!-- Custom styles for this page -->
   <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+  <!-- Page level custom scripts -->
+  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+ <!-- Page level plugins -->
+  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
    <script>
     $(document).ready(function(){
          $('select#selectequipos').change(function () {
@@ -131,8 +135,6 @@
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'blog-home' %}">
         <div class="sidebar-brand-icon">
-          <!--<i class="fas fa-laugh-wink"></i>
-          <i><img src="{% static 'images/spm2.png' %}"></i>-->
           <i>SPM</i>
         </div>
         <div class="sidebar-brand-text mx-4"><sup></sup></div>
@@ -180,7 +182,7 @@
             <a class="collapse-item" href="#">Componente Modo Falla</a>
             <a class="collapse-item" href="#">Condición</a>
             <a class="collapse-item" href="{% url 'company' %}">Empresa</a>
-            <a class="collapse-item" href="{% url 'equipo' %}">Equipo</a>
+
             <a class="collapse-item" href="#">Medición</a>
             <a class="collapse-item" href="{% url 'profile' %}">Perfil de Usuario</a>
             <a class="collapse-item" href="#">Tipo de Falla</a>
@@ -195,7 +197,8 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link " href="{% url 'equipo_form' %}" data-toggle="" data-target="#" aria-expanded="true" aria-controls="collapseUtilities">
+        <a class="nav-link " href="{% url 'home_list' %}"
+           data-toggle="" data-target="#" aria-expanded="true" aria-controls="collapseUtilities">
           <span>Reportes</span>
         </a>
       </li>
@@ -314,30 +317,11 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
 
-  <!-- Page level plugins -->
-  <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
-  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
-  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
-  <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
-
-
 </body>
-<script type="text/javascript" src="{% static 'js/material.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
 
 </html>
